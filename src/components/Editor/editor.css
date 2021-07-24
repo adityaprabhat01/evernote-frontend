@@ -1,0 +1,28 @@
+body {
+  background: #f3f1f2;
+}
+
+.app {
+  margin: 1rem auto;
+  max-width: 200px;
+}
+
+.quill {
+  float: right;
+}
+
+.ql-container {
+  min-height: 500px;
+  max-width: 500px;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  background: #fefcfc;
+}
+
+.ql-toolbar {
+  background: #eaecec;
+  max-width: 500px;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  border-bottom: none;
+}
