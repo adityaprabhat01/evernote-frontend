@@ -14,7 +14,7 @@ const Note = () => {
     fetchPolicy: "no-cache",
   });
   if(loading === false && data !== undefined && noteId !== "") {
-    content = data.note.content
+    content = data.note    
   }
   useEffect(() => {
     setNoteId("")
@@ -38,10 +38,11 @@ const Note = () => {
     setNoteId("")
     content = ""
   }
+
   return (
     <div>
       {
-        <Editor content={content} />
+        <Editor data={content} />
       }
     </div>
   )

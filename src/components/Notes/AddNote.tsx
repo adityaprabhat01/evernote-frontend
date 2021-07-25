@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 
 import { ADD_NOTE } from '../../queries/NotesQueries'
@@ -7,6 +7,7 @@ import { NotesContext } from '../../Context/NotesContext'
 
 const AddNote = () => {
   const { state, dispatch } = useContext(NotesContext)
+  const history = useHistory()
   const [toggleShowCreate, settoggleShowCreate] = useState(false)
   const [hideCreate, setHideCreate] = useState(false)
   const [noteName, setNoteName] = useState('')
@@ -48,7 +49,6 @@ const AddNote = () => {
           notebookId: notebookId
         }
       }).then((res) => {
-        console.log(res)
         setCreating(false)
         dispatch({ type: 'UPDATE', payload: {
           name: res.data.addNote.name,
@@ -56,6 +56,7 @@ const AddNote = () => {
           authorId: "1235",
           content: res.data.addNote.content
         } })
+        history.push(`/notebook/${notebookId}/note/${res.data.addNote._id}`)
       }).catch((err) => {
         alert('Something went wrong')
       })

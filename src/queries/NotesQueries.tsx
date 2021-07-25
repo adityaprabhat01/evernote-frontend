@@ -30,5 +30,14 @@ const GET_NOTE = gql`
     }
   }
 `
+const ADD_NOTE_CONTENT = gql`
+  mutation AddNoteContent($note_id: ID!, $name: String!, $content: String!){
+    addNoteContent(note_id: $note_id, name: $name, content: $content) {
+      _id,      
+      name,
+      content 
+    }
+  }
+`
 
-export { GET_NOTES, ADD_NOTE, GET_NOTE }
+export { GET_NOTES, ADD_NOTE, GET_NOTE, ADD_NOTE_CONTENT }
