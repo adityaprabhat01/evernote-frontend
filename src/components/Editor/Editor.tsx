@@ -11,7 +11,11 @@ Font.whitelist = ['mirza', 'roboto'];
 Quill.register(Font, true);
 
 const Editor = (props: any) => {
-  const note = props.data
+  let note = props.data
+  if(note === null) {
+    note = ""
+  }
+  
   const { name, content, _id } = note
   const [text, setText] = useState("");  
   useEffect(() => {
@@ -24,11 +28,9 @@ const Editor = (props: any) => {
 
   function handleChange(value: any) {    
     setText(value);
-    console.log(text)
   }
 
   function onSubmitNote() {
-    console.log(text)
     updateNote({
       variables: {
         note_id: _id,

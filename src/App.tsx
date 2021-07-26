@@ -3,7 +3,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 import Homepage from './components/Homepage/Homepage';
 import Editor from './components/Editor/Editor';
-import Note from './components/Notes/Note';
 import NotebookList from './components/Notebooks/NotebookList'
 import Notebook from './components/Notebooks/Notebook'
 import NotebookContextProvider from './Context/NotebookContext'

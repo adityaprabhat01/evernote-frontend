@@ -40,4 +40,14 @@ const ADD_NOTE_CONTENT = gql`
   }
 `
 
-export { GET_NOTES, ADD_NOTE, GET_NOTE, ADD_NOTE_CONTENT }
+const DELETE_NOTE = gql`
+  mutation DeleteNote($note_id: ID!, $notebook_id: ID!) {
+    deleteNote(note_id: $note_id, notebook_id: $notebook_id) {
+      _id,
+      name
+    }
+  }
+`
+
+
+export { GET_NOTES, ADD_NOTE, GET_NOTE, ADD_NOTE_CONTENT, DELETE_NOTE }

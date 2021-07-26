@@ -18,8 +18,6 @@ const AddNote = () => {
   useEffect(() => {
     if(isParams(params)) {
       setNotebookId(params.id)
-    } else {
-      console.log("error")
     }
   }, [notebookId])
 
