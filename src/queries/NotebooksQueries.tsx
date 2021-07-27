@@ -5,7 +5,6 @@ const GET_NOTEBOOKS = gql`
     notebooks {
       _id
       name
-      notesCount
       notes {
         _id
       }
@@ -18,7 +17,6 @@ const GET_NOTEBOOK = gql`
     notebook(_id: $_id) {
       _id
       name
-      notesCount
       notes {
         name
         _id
@@ -33,7 +31,6 @@ const ADD_NOTEBOOK = gql`
     addNotebook(name: $name) {
       _id
       name
-      notesCount
       notes {
         _id
       }

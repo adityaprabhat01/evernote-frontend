@@ -7,8 +7,7 @@ import AddNotebook from './AddNotebook'
 import { NotebookInterface } from '../../interfaces/notebookInterfaces'
 import { NotebookContext } from '../../Context/NotebookContext'
 
-const Notebooks = () => {
-  // contains notebooks of a specific user
+const Notebooks = () => {  
   const { data, loading } = useQuery(GET_NOTEBOOKS, {
     fetchPolicy: "no-cache"
   })
@@ -19,7 +18,7 @@ const Notebooks = () => {
       dispatch({ type: 'FETCH', payload: data.notebooks })
     }
   }, [data])
-
+  
   if(loading === true) {
     return (
       <div>Loading...</div>

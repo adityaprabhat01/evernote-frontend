@@ -6,7 +6,6 @@ const GET_NOTES = gql`
       _id
       name
       content
-      authorId
     }
   }
 `
