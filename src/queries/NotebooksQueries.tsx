@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 const GET_NOTEBOOKS = gql`
-  query GetNotebooks {
-    notebooks {
+  query GetNotebooks($_id: ID!) {
+    notebooks(_id: $_id) {
       _id
       name
       notes {
@@ -27,8 +27,8 @@ const GET_NOTEBOOK = gql`
 `
 
 const ADD_NOTEBOOK = gql`
-  mutation AddNotebook($name: String!) {
-    addNotebook(name: $name) {
+  mutation AddNotebook($name: String!, $_id: ID!) {
+    addNotebook(name: $name, _id: $_id) {
       _id
       name
       notes {
@@ -38,4 +38,12 @@ const ADD_NOTEBOOK = gql`
   }
 `
 
-export { GET_NOTEBOOKS, GET_NOTEBOOK, ADD_NOTEBOOK }
+const DELETE_NOTEBOOK = gql`
+  mutation DeleteNotebook($notebook_id: ID!, $_id: ID!) {
+    deleteNotebook(notebook_id: $notebook_id, _id: $_id) {
+      name
+    }
+  }
+`
+
+export { GET_NOTEBOOKS, GET_NOTEBOOK, ADD_NOTEBOOK, DELETE_NOTEBOOK }

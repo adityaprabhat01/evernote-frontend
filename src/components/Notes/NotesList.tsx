@@ -7,11 +7,13 @@ import { DELETE_NOTE } from '../../queries/NotesQueries'
 import { NotesContext } from '../../Context/NotesContext'
 import AddNote from './AddNote'
 import Note from './Note'
+import { UserContext } from '../../Context/UserContext'
 
 const NotesList = () => {
   // contain notes of a specific user
   const [id, setId] = useState('')
   const { state, dispatch } = useContext(NotesContext)
+  const { userId } = useContext(UserContext)
 
   const [getNotebook, { loading, data }] = useLazyQuery(GET_NOTEBOOK, {
     fetchPolicy: "no-cache",
@@ -73,7 +75,7 @@ const NotesList = () => {
   
   function onDeleteNote(event: any) {
     const [deleteNote, { loading, data }] = res
-    deleteNote({ variables: { note_id: event.target.id, notebook_id: id } })
+    deleteNote({ variables: { note_id: event.target.id, notebook_id: id, _id: userId.id } })
     fetchOnDelete()
   }
   

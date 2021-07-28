@@ -3,9 +3,11 @@ import { useMutation } from '@apollo/client'
 
 import { ADD_NOTEBOOK } from '../../queries/NotebooksQueries'
 import { NotebookContext } from '../../Context/NotebookContext'
+import { UserContext } from '../../Context/UserContext'
 
 const AddNotebook = () => {
   const { state, dispatch } = useContext(NotebookContext)
+  const { userId } = useContext(UserContext)
   const [toggleShowCreate, settoggleShowCreate] = useState(false)
   const [hideCreate, setHideCreate] = useState(false)
   const [noteBookName, setNotebookName] = useState('')
@@ -24,7 +26,10 @@ const AddNotebook = () => {
     } else {
       setCreating(true)
       addNotebook({
-        variables: { name: noteBookName }
+        variables: { 
+          name: noteBookName,
+          _id: userId.id
+        }
       }).then((res) => {
         setCreating(false)
         dispatch({ type: 'UPDATE', payload: {

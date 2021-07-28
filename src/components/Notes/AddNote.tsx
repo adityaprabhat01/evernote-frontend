@@ -4,30 +4,34 @@ import { useMutation } from '@apollo/client'
 
 import { ADD_NOTE } from '../../queries/NotesQueries'
 import { NotesContext } from '../../Context/NotesContext'
+import { UserContext } from '../../Context/UserContext'
 
 const AddNote = () => {
   const { state, dispatch } = useContext(NotesContext)
+  const { userId } = useContext(UserContext)
   const history = useHistory()
   const [toggleShowCreate, settoggleShowCreate] = useState(false)
   const [hideCreate, setHideCreate] = useState(false)
   const [noteName, setNoteName] = useState('')
-  const [creating, setCreating] = useState(false)
-  const [addNote, { data }] = useMutation(ADD_NOTE)
+  const [addNote, { loading, data }] = useMutation(ADD_NOTE)
   const [notebookId, setNotebookId] = useState('')
 
   useEffect(() => {
-    if(isParams(params)) {
-      setNotebookId(params.id)
+    if(isParams(params) || isNoteParams(params)) {
+      setNotebookId(params.notebook_id)
     }
   }, [notebookId])
 
-  type Params = { id: string }
+  type Params = { notebook_id: string }
   type NoParams = {}
+  type NoteParams = { note_id: string, notebook_id: string }
   const params = useParams()
   function isParams (params: Params | NoParams): params is Params {
-    return ( params as Params ).id !== undefined
+    return ( params as Params ).notebook_id !== undefined
   }
-
+  function isNoteParams (params: NoteParams | NoParams): params is NoteParams {
+    return ( params as NoteParams ).note_id !== undefined
+  }
 
   const handleCreateNote = () => {
     settoggleShowCreate(!toggleShowCreate)
@@ -38,16 +42,16 @@ const AddNote = () => {
     event.preventDefault()
     if(noteName.length === 0) {
       alert('Enter notebook name')
-    } else {
-      setCreating(true)
+    } else {      
+      console.log(noteName, "+",  notebookId,"+", userId.id)
       addNote({
         variables: { 
           name: noteName,
           content: "This a sample note in html form",
-          notebookId: notebookId
+          notebookId: notebookId,
+          _id: userId.id
         }
       }).then((res) => {
-        setCreating(false)
         dispatch({ type: 'UPDATE', payload: {
           name: res.data.addNote.name,
           _id: res.data.addNote._id,
@@ -76,7 +80,7 @@ const AddNote = () => {
           <input type="submit" value="create" />
           <input onClick={handleCreateNote} type="submit" value="cancel" />
           {
-            creating === true ?
+            loading === true ?
             <span>Creating Notebook...</span> :
             null
           }

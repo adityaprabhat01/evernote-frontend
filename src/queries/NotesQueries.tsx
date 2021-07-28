@@ -11,8 +11,8 @@ const GET_NOTES = gql`
 `
 
 const ADD_NOTE = gql`
-  mutation AddNote($name: String!, $content: String!, $authorId: String, $notebookId: String!) {
-    addNote(name: $name, content: $content, authorId: $authorId, notebookId: $notebookId) {
+  mutation AddNote($name: String!, $content: String!, $notebookId: String!, $_id: ID!) {
+    addNote(name: $name, content: $content, notebookId: $notebookId, _id: $_id) {
       _id
       name
       content
@@ -40,8 +40,8 @@ const ADD_NOTE_CONTENT = gql`
 `
 
 const DELETE_NOTE = gql`
-  mutation DeleteNote($note_id: ID!, $notebook_id: ID!) {
-    deleteNote(note_id: $note_id, notebook_id: $notebook_id) {
+  mutation DeleteNote($note_id: ID!, $notebook_id: ID!, $_id: ID!) {
+    deleteNote(note_id: $note_id, notebook_id: $notebook_id, _id: $_id) {
       _id,
       name
     }

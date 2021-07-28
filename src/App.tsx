@@ -7,6 +7,7 @@ import NotebookList from './components/Notebooks/NotebookList'
 import Notebook from './components/Notebooks/Notebook'
 import NotebookContextProvider from './Context/NotebookContext'
 import NotesContextProvider from './Context/NotesContext'
+import UserContextProvider from './Context/UserContext';
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -18,14 +19,16 @@ function App() {
     <>
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <NotebookContextProvider>
-            <NotesContextProvider>
-              <Route exact path="/" component={Homepage} />
-              <Route exact path="/editor" component={Editor} />
-              <Route exact path={["/notebook/:id", "/notebook/:notebook_id/note/:note_id"]} component={Notebook} />
-              <Route exact path="/notebooks" component={NotebookList} />
-            </NotesContextProvider>
-          </NotebookContextProvider>
+          <UserContextProvider>
+            <NotebookContextProvider>
+              <NotesContextProvider>
+                <Route exact path="/" component={Homepage} />
+                <Route exact path="/editor" component={Editor} />
+                <Route exact path={["/notebook/:notebook_id", "/notebook/:notebook_id/note/:note_id"]} component={Notebook} />
+                <Route exact path="/notebooks" component={NotebookList} />
+              </NotesContextProvider>
+            </NotebookContextProvider>
+          </UserContextProvider>  
         </BrowserRouter>
       </ApolloProvider>
     </>
