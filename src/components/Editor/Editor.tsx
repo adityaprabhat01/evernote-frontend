@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 import './editor.css'
 import { ADD_NOTE_CONTENT } from '../../queries/NotesQueries'
+import { debounce } from "../../utils";
 
 var Font = Quill.import('formats/font');
 Font.whitelist = ['mirza', 'roboto'];
@@ -17,10 +18,13 @@ const Editor = (props: any) => {
   }
   
   const { name, content, _id } = note
-  const [text, setText] = useState("");  
+  const [text, setText] = useState("");
+
   useEffect(() => {
     setText(content)
   }, [content])
+
+  
     
   const [updateNote, { loading, data }] = useMutation(ADD_NOTE_CONTENT, {
     fetchPolicy: "no-cache",
@@ -29,8 +33,7 @@ const Editor = (props: any) => {
   function handleChange(value: any) {    
     setText(value);
   }
-
-  function onSubmitNote() {
+  const addText = () => {
     updateNote({
       variables: {
         note_id: _id,
@@ -39,6 +42,12 @@ const Editor = (props: any) => {
       }
     })
   }
+
+  useEffect(() => {
+    if(note !== ""){
+      debounce<typeof addText>(addText, 400)()
+    }
+  }, [text])
 
   const modules = {
     toolbar: [
@@ -86,7 +95,6 @@ const Editor = (props: any) => {
         modules={modules}
         formats={formats}
       />
-      <button onClick={onSubmitNote}>Submit</button>
     </div>
   );
 };
