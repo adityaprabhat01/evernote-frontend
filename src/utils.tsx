@@ -7,6 +7,5 @@ export const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: nu
     }
     timeout = setTimeout(() => func(...args), waitFor);
   };
-  console.log(timeout)
   return debounced as (...args: Parameters<F>) => ReturnType<F>;
 };

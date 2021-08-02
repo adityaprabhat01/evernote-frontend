@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
+import styled from 'styled-components'
 
 import { GET_NOTEBOOK } from '../../queries/NotebooksQueries'
 import { DELETE_NOTE } from '../../queries/NotesQueries'
@@ -8,6 +9,33 @@ import { NotesContext } from '../../Context/NotesContext'
 import AddNote from './AddNote'
 import Note from './Note'
 import { UserContext } from '../../Context/UserContext'
+
+const NoteContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+const ListContainer = styled.div`
+  margin: 2rem;
+  max-width: 48rem;
+  width: 20%;
+  font-family: 'Rubik', sans-serif;
+`
+
+const ListItem = styled.div`
+  padding: 0.5rem;
+  text-decoration: none;
+  :hover {
+    background-color: #cccccc;
+  }
+`
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
+  color: #404040;
+`
 
 const NotesList = () => {
   // contain notes of a specific user
@@ -89,20 +117,25 @@ const NotesList = () => {
         <button>
           <Link to={"/notebooks"}> Go to Notebooks </Link>
         </button>
-        {
-          state.map((note: any) => {            
-            return (
-              <div>
-                <li>
-                  <Link to={`/notebook/${id}/note/${note._id}`}>{ note.name }</Link>
-                  <button id={note._id} onClick={onDeleteNote}>Delete</button>
-                </li>
-              </div>
-            )
-          })
-        }
-        <AddNote />
-        <Note />
+        <NoteContainer>
+          <AddNote />
+          <ListContainer>
+            {
+              state.map((note: any) => {            
+                return (
+                  <div>
+                    <ListItem>
+                      <StyledLink to={`/notebook/${id}/note/${note._id}`}>{ note.name }</StyledLink>
+                      <button id={note._id} onClick={onDeleteNote}>Delete</button>
+                    </ListItem>
+                  </div>
+                )
+              })
+            }
+          </ListContainer>          
+          <Note />
+        </NoteContainer>
+        
       </div>
       )
     }

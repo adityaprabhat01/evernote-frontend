@@ -83,12 +83,15 @@ const Editor = (props: any) => {
   
   return (
     <div>
-      <p>{ name }</p>
-      {
-        loading === true ?
-        <p>Updating</p> :
-        <p>Up to date</p>
-      } 
+      <div>
+        <span>{ name }</span>
+        {
+          loading === true ?
+          <span>Updating....</span> :
+          <span>Updated</span>
+        } 
+      </div>
+      
       <ReactQuill
         value={text || ""}
         onChange={handleChange}

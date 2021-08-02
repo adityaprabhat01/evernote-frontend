@@ -1,9 +1,26 @@
 import { useState, useContext } from 'react'
 import { useMutation } from '@apollo/client'
+import styled from 'styled-components'
 
 import { ADD_NOTEBOOK } from '../../queries/NotebooksQueries'
 import { NotebookContext } from '../../Context/NotebookContext'
 import { UserContext } from '../../Context/UserContext'
+
+const Button = styled.button`
+  background-color: #38b638;
+  color: #f5ecec;
+  font-size: 1em;
+  font-weight: 600;
+  margin: 1em;
+  padding: 1em 1em;
+  border: none;
+  border-radius: 2rem;
+  :hover {
+    cursor: pointer;
+    background-color: #2fa52f;
+    transition: 80ms;
+  }
+`;
 
 const AddNotebook = () => {
   const { state, dispatch } = useContext(NotebookContext)
@@ -49,7 +66,7 @@ const AddNotebook = () => {
     <div>
       {
         hideCreate === false ?
-        <button onClick={handleCreateNotebook}>Create Notebook</button> :
+        <Button onClick={handleCreateNotebook}>Create Notebook</Button> :
         null
       }
       {
