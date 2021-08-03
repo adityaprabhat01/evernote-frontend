@@ -6,11 +6,12 @@ import { USER_DATA } from '../../queries/UserQueries'
 import { UserContext } from '../../Context/UserContext'
 
 const Homepage = () => {
+  const { userId, pushUserId } = useContext(UserContext)
+  console.log(userId)
   const { loading, data } = useQuery(USER_DATA, {
-    variables: { _id: "60ffcbe580e53cfb68cc41bf" },
+    variables: { _id: userId.id },
     fetchPolicy: "no-cache"
   })
-  const { userId, pushUserId } = useContext(UserContext)
   
   useEffect(() => {
     if(data) {

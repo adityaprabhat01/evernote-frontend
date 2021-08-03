@@ -7,6 +7,7 @@ const GET_NOTEBOOKS = gql`
       name
       notes {
         _id
+        name
       }
     }
   }

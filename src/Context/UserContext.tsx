@@ -4,7 +4,7 @@ interface initStateInterface {
   id: string
 }
 const initState: initStateInterface = {
-  id: ''
+  id: '60ffcbe580e53cfb68cc41bf'
 }
 export const UserContext = createContext({
   userId: initState,

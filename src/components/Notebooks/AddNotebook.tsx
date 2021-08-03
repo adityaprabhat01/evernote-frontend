@@ -72,7 +72,7 @@ const AddNotebook = () => {
       {
         toggleShowCreate === true ? 
         <form onSubmit={handleSubmitNotebook}>
-          <input onChange = {(e) => setNotebookName(e.target.value)} placeholder="Enter notebook name" />
+          <input onChange = {(e) => setNotebookName(e.target.value)} placeholder="Enter notebook name" /><br />
           <input type="submit" value="create" />
           <input onClick={handleCreateNotebook} type="submit" value="cancel" />
           {

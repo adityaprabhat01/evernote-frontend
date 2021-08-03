@@ -8,6 +8,7 @@ import AddNotebook from './AddNotebook'
 import { NotebookInterface } from '../../interfaces/notebookInterfaces'
 import { NotebookContext } from '../../Context/NotebookContext'
 import { UserContext } from '../../Context/UserContext'
+import NotesDrop from './NotesDrop'
 
 const NotebookContainer = styled.div`
   display: flex;
@@ -61,15 +62,6 @@ const Notebooks = () => {
     const [deleteNotebook, { loading, data }] = res
     deleteNotebook({ variables: { notebook_id: event.target.id, _id: userId.id } })
   }
-
-  function showMore(event: any) {
-    const id = event.target.id
-    const notebook: NotebookInterface | undefined = state.find(state => state._id === id)
-    if(notebook !== undefined) {
-      const { notes } = notebook
-      console.log(notes)
-    }
-  }
   
   if(loading === true) {
     return (
@@ -84,9 +76,9 @@ const Notebooks = () => {
           state.map((notebook: NotebookInterface) => {
             return (
                 <ListItem key={ notebook._id }>
-                  <StyledLink to={`/notebook/${notebook._id}`}>{ notebook.name }</StyledLink>
-                  <button id={notebook._id} onClick={showMore}>Show more</button>
+                  <StyledLink to={`/notebook/${notebook._id}`}>{ notebook.name }</StyledLink>   
                   <button id={notebook._id} onClick={onDeleteNotebook}>Delete</button>
+                  <NotesDrop notebook_id={notebook._id} />
                 </ListItem>
             )
           })
