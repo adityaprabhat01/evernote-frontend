@@ -6,13 +6,13 @@ import { ADD_NOTEBOOK } from '../../queries/NotebooksQueries'
 import { NotebookContext } from '../../Context/NotebookContext'
 import { UserContext } from '../../Context/UserContext'
 
-const Button = styled.button`
+const Button = styled.button<{ fontWeight: string, padValue: string }>`
   background-color: #38b638;
   color: #f5ecec;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: ${ props => props.fontWeight || 600 };
   margin: 1em;
-  padding: 1em 1em;
+  padding: ${ props => props.padValue };
   border: none;
   border-radius: 2rem;
   :hover {
@@ -21,6 +21,15 @@ const Button = styled.button`
     transition: 80ms;
   }
 `;
+
+const Input = styled.input`
+  border-radius: 20px;
+  padding: 0.5rem;
+  margin: 1em 1em 0 1em;
+  font-size: 1rem;
+  border: 1px solid #dddbdb;
+  max-width: 160px;
+`
 
 const AddNotebook = () => {
   const { state, dispatch } = useContext(NotebookContext)
@@ -66,15 +75,15 @@ const AddNotebook = () => {
     <div>
       {
         hideCreate === false ?
-        <Button onClick={handleCreateNotebook}>Create Notebook</Button> :
+        <Button fontWeight="600" padValue="1em" onClick={handleCreateNotebook}>Create Notebook</Button> :
         null
       }
       {
         toggleShowCreate === true ? 
         <form onSubmit={handleSubmitNotebook}>
-          <input onChange = {(e) => setNotebookName(e.target.value)} placeholder="Enter notebook name" /><br />
-          <input type="submit" value="create" />
-          <input onClick={handleCreateNotebook} type="submit" value="cancel" />
+          <Input onChange = {(e) => setNotebookName(e.target.value)} placeholder="Enter notebook name" /> <br />
+          <Button fontWeight='200' padValue="0.5em" onClick={handleSubmitNotebook}>Create</Button>
+          <Button fontWeight='200' padValue="0.5em" onClick={handleCreateNotebook}>Cancel</Button>
           {
             creating === true ?
             <span>Creating Notebook...</span> :

@@ -6,17 +6,17 @@ import styled from 'styled-components'
 import { GET_NOTEBOOK } from '../../queries/NotebooksQueries'
 import { DELETE_NOTE } from '../../queries/NotesQueries'
 import { NotesContext } from '../../Context/NotesContext'
-import AddNote from './AddNote'
 import Note from './Note'
+import Sidebar from '../Sidebar/SIdebar'
 import { UserContext } from '../../Context/UserContext'
 
 const NoteContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 
 const ListContainer = styled.div`
-  margin: 2rem;
   max-width: 48rem;
   width: 20%;
   font-family: 'Rubik', sans-serif;
@@ -25,8 +25,10 @@ const ListContainer = styled.div`
 const ListItem = styled.div`
   padding: 0.5rem;
   text-decoration: none;
+  overflow: hidden;
   :hover {
     background-color: #cccccc;
+    border-radius: 20px;
   }
 `
 const StyledLink = styled(Link)`
@@ -35,6 +37,12 @@ const StyledLink = styled(Link)`
     text-decoration: none;
   }
   color: #404040;
+`
+const DeleteIcon = styled.i`
+  :hover {
+    background-color: #f30e0e;
+    cursor: pointer;
+  }
 `
 
 const NotesList = () => {
@@ -50,7 +58,7 @@ const NotesList = () => {
     fetchPolicy: "no-cache"
   })
   useEffect(() => {
-    if(data) {
+    if (data) {
       dispatch({ type: 'FETCH', payload: data.notebook.notes })
     }
   }, [data])
@@ -61,19 +69,19 @@ const NotesList = () => {
     type Params = { id: string }
     type NoParams = {}
     type ParamsWithNotebook = { notebook_id: string, note_id: string }
-    function isParams (params: Params | NoParams): params is Params {
-      return ( params as Params ).id !== undefined
+    function isParams(params: Params | NoParams): params is Params {
+      return (params as Params).id !== undefined
     }
     function isNotebookParams(params: ParamsWithNotebook | NoParams): params is ParamsWithNotebook {
-      return ( params as ParamsWithNotebook ).notebook_id !== undefined
+      return (params as ParamsWithNotebook).notebook_id !== undefined
     }
 
-    if(isParams(params) && id === "") {
+    if (isParams(params) && id === "") {
       setId(params.id)
       getNotebook({ variables: { _id: params.id } })
     }
-    
-    if(isNotebookParams(params) && id === "") {
+
+    if (isNotebookParams(params) && id === "") {
       setId(params.notebook_id)
       getNotebook({ variables: { _id: params.notebook_id } })
     }
@@ -84,61 +92,61 @@ const NotesList = () => {
     type Params = { id: string }
     type ParamsWithNotebook = { notebook_id: string, note_id: string }
     function isNotebookParams(params: ParamsWithNotebook | NoParams): params is ParamsWithNotebook {
-      return ( params as ParamsWithNotebook ).notebook_id !== undefined
+      return (params as ParamsWithNotebook).notebook_id !== undefined
     }
-    function isParams (params: Params | NoParams): params is Params {
-      return ( params as Params ).id !== undefined
+    function isParams(params: Params | NoParams): params is Params {
+      return (params as Params).id !== undefined
     }
-    if(isParams(params)) {
+    if (isParams(params)) {
       setId(params.id)
       getNotebook({ variables: { _id: params.id } })
     }
-    if(isNotebookParams(params)) {
+    if (isNotebookParams(params)) {
       setId(params.notebook_id)
       getNotebook({ variables: { _id: params.notebook_id } })
     }
   }
 
   checkParamsAndFetch()
-  
+
   function onDeleteNote(event: any) {
     const [deleteNote, { loading, data }] = res
     deleteNote({ variables: { note_id: event.target.id, notebook_id: id, _id: userId.id } })
     fetchOnDelete()
   }
-  
-  if(loading === true) {
+
+  if (loading === true) {
     return (
       <div>Loading...</div>
     )
   } else {
     return (
       <div>
-        <button>
-          <Link to={"/notebooks"}> Go to Notebooks </Link>
-        </button>
         <NoteContainer>
-          <AddNote />
+          <Sidebar />
           <ListContainer>
+            Notes
             {
-              state.map((note: any) => {            
+              state.map((note: any) => {
                 return (
                   <div>
-                    <ListItem>
-                      <StyledLink to={`/notebook/${id}/note/${note._id}`}>{ note.name }</StyledLink>
-                      <button id={note._id} onClick={onDeleteNote}>Delete</button>
-                    </ListItem>
+                    <StyledLink to={`/notebook/${id}/note/${note._id}`}>
+                      <ListItem>
+                        <span>{note.name}</span>
+                        <DeleteIcon style={{float: 'right'}} id={note._id} onClick={onDeleteNote} className="gg-remove" />
+                      </ListItem>
+                    </StyledLink>
                   </div>
                 )
               })
             }
-          </ListContainer>          
+          </ListContainer>
           <Note />
         </NoteContainer>
-        
+
       </div>
-      )
-    }
+    )
+  }
 }
 
 export default NotesList

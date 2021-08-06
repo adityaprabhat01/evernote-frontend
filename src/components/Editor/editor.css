@@ -13,7 +13,7 @@ body {
 
 .ql-container {
   min-height: 500px;
-  max-width: 500px;
+  max-width: 800px;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   background: #fefcfc;
@@ -21,7 +21,7 @@ body {
 
 .ql-toolbar {
   background: #eaecec;
-  max-width: 500px;
+  max-width: 800px;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
   border-bottom: none;

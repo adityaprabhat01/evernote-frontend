@@ -1,10 +1,36 @@
 import { useState, useContext, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
+import styled from 'styled-components'
 
 import { ADD_NOTE } from '../../queries/NotesQueries'
 import { NotesContext } from '../../Context/NotesContext'
 import { UserContext } from '../../Context/UserContext'
+
+const Button = styled.button<{ fontWeight: string, padValue: string }>`
+  background-color: #38b638;
+  color: #f5ecec;
+  font-size: 1em;
+  font-weight: ${ props => props.fontWeight || 600 };
+  margin: 1em;
+  padding: ${ props => props.padValue };
+  border: none;
+  border-radius: 2rem;
+  :hover {
+    cursor: pointer;
+    background-color: #2fa52f;
+    transition: 80ms;
+  }
+`;
+
+const Input = styled.input`
+  border-radius: 20px;
+  padding: 0.5rem;
+  margin: 1em 1em 0 1em;
+  font-size: 1rem;
+  border: 1px solid #dddbdb;
+  max-width: 160px;
+`
 
 const AddNote = () => {
   const { state, dispatch } = useContext(NotesContext)
@@ -70,15 +96,15 @@ const AddNote = () => {
     <div>
       {
         hideCreate === false ?
-        <button onClick={handleCreateNote}>Create Note</button> :
+        <Button fontWeight="600" padValue="1em" onClick={handleCreateNote}>Create Note</Button> :
         null
       }
       {
         toggleShowCreate === true ? 
-        <form onSubmit={handleSubmitNotebook}>
-          <input onChange = {(e) => setNoteName(e.target.value)} placeholder="Enter note name" />
-          <input type="submit" value="create" />
-          <input onClick={handleCreateNote} type="submit" value="cancel" />
+        <form>
+          <Input onChange = {(e) => setNoteName(e.target.value)} placeholder="Enter note name" /> <br />
+          <Button fontWeight='200' padValue="0.5em" onClick={handleSubmitNotebook}>Create</Button>
+          <Button fontWeight='200' padValue="0.5em" onClick={handleCreateNote}>Cancel</Button>
           {
             loading === true ?
             <span>Creating Notebook...</span> :

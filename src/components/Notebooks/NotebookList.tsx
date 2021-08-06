@@ -21,13 +21,23 @@ const ListContainer = styled.div`
   width: 90%;
   font-family: 'Rubik', sans-serif;
 `
+const ListItemContainer = styled.div`
+  margin: 0 auto;  
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  display: flex;
+  flex-direction: row;
+`
 
 const ListItem = styled.div`
   padding: 0.5rem;
   text-decoration: none;
   :hover {
     background-color: #cccccc;
+    border-radius: 20px;
   }
+  display: flex;
+  flex-direction: column;
 `
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -36,8 +46,16 @@ const StyledLink = styled(Link)`
   }
   color: #404040;
 `
+const DeleteIcon = styled.i`
+  margin: 0.5rem;
+  :hover {
+    background-color: #f30e0e;
+    cursor: pointer;
+  }
+`
 
-const Notebooks = () => {  
+
+const Notebooks = () => {
   const { userId } = useContext(UserContext)
   const res = useMutation(DELETE_NOTEBOOK, {
     fetchPolicy: "no-cache",
@@ -48,12 +66,12 @@ const Notebooks = () => {
   const [fetchLazy, { loading, data }] = useLazyQuery(GET_NOTEBOOKS, {
     fetchPolicy: "no-cache",
     variables: { _id: userId.id },
-    onCompleted: () => {      
+    onCompleted: () => {
       dispatch({ type: 'FETCH', payload: data.notebooks })
     }
   })
   const { state, dispatch } = useContext(NotebookContext)
-  
+
   useEffect(() => {
     fetchLazy()
   }, [])
@@ -62,8 +80,8 @@ const Notebooks = () => {
     const [deleteNotebook, { loading, data }] = res
     deleteNotebook({ variables: { notebook_id: event.target.id, _id: userId.id } })
   }
-  
-  if(loading === true) {
+
+  if (loading === true) {
     return (
       <div>Loading...</div>
     )
@@ -72,22 +90,27 @@ const Notebooks = () => {
       <NotebookContainer>
         <AddNotebook />
         <ListContainer>
-        {
-          state.map((notebook: NotebookInterface) => {
-            return (
-                <ListItem key={ notebook._id }>
-                  <StyledLink to={`/notebook/${notebook._id}`}>{ notebook.name }</StyledLink>   
-                  <button id={notebook._id} onClick={onDeleteNotebook}>Delete</button>
+          {
+            state.map((notebook: NotebookInterface) => {
+              return (
+                <ListItemContainer>
                   <NotesDrop notebook_id={notebook._id} />
-                </ListItem>
-            )
-          })
-        }
-        </ListContainer> 
+                  <StyledLink to={`/notebook/${notebook._id}`}>
+                    <ListItem key={notebook._id}>
+                      {notebook.name}
+                    </ListItem>
+                  </StyledLink>
+                  <DeleteIcon id={notebook._id} onClick={onDeleteNotebook} className="gg-remove" />
+                </ListItemContainer>
+
+              )
+            })
+          }
+        </ListContainer>
       </NotebookContainer>
     )
   }
-  
+
 }
 
 export default Notebooks

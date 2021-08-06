@@ -17,6 +17,14 @@ const ListItem = styled.div`
   text-decoration: none;
   :hover {
     background-color: #bbbbbb;
+    border-radius: 20px;
+  }
+`
+const ArrowIcon = styled.i`
+  margin: 0.5rem;
+  :hover {
+    background-color: #b6b5b5;
+    cursor: pointer;
   }
 `
 
@@ -31,13 +39,17 @@ const NotesDrop = (props: any) => {
       notes = state[i].notes
     }
   }
-  console.log(state)
   function showMore(event: any) {        
     setShow(!show)
   }
   return (
     <div>
-      <button onClick={showMore}>Show more</button>
+      {
+        show === false ?
+        <ArrowIcon onClick={showMore} className="gg-arrow-down-o" />:
+        <ArrowIcon onClick={showMore} className="gg-arrow-up-o" />
+      }
+      
       <div>
         {
           show === true ?
