@@ -40,7 +40,7 @@ const StyledLink = styled(Link)`
 `
 const DeleteIcon = styled.i`
   :hover {
-    background-color: #f30e0e;
+    background-color: #e8816f;
     cursor: pointer;
   }
 `
@@ -132,7 +132,7 @@ const NotesList = () => {
                   <div>
                     <StyledLink to={`/notebook/${id}/note/${note._id}`}>
                       <ListItem>
-                        <span>{note.name}</span>
+                        <span style={{ fontWeight: 800 }}>{note.name}</span>
                         <DeleteIcon style={{float: 'right'}} id={note._id} onClick={onDeleteNote} className="gg-remove" />
                       </ListItem>
                     </StyledLink>

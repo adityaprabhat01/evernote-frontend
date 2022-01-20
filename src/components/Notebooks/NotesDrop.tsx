@@ -14,9 +14,10 @@ const StyledLink = styled(Link)`
 
 const ListItem = styled.div`
   padding: 0.5rem;
+  width: 100%;
   text-decoration: none;
   :hover {
-    background-color: #bbbbbb;
+    background-color: #a19c9c;
     border-radius: 20px;
   }
 `
@@ -33,37 +34,38 @@ const NotesDrop = (props: any) => {
   const { state, dispatch } = useContext(NotebookContext)
   const { notebook_id } = props
   let notes: Array<any> = [];
-  
-  for(let i=0;i<state.length;i++) {
-    if(state[i]._id === notebook_id) {
+
+  for (let i = 0; i < state.length; i++) {
+    if (state[i]._id === notebook_id) {
       notes = state[i].notes
     }
   }
-  function showMore(event: any) {        
+  function showMore(event: any) {
     setShow(!show)
   }
   return (
     <div>
       {
         show === false ?
-        <ArrowIcon onClick={showMore} className="gg-arrow-down-o" />:
-        <ArrowIcon onClick={showMore} className="gg-arrow-up-o" />
+          <ArrowIcon onClick={showMore} className="gg-arrow-down-o" /> :
+          <ArrowIcon onClick={showMore} className="gg-arrow-up-o" />
       }
-      
+
       <div>
         {
           show === true ?
-          notes.map(note => {
-            return (
-              <ListItem>
-                <StyledLink to={`/notebook/${notebook_id}/note/${note._id}`}>{ note.name }</StyledLink>
-              </ListItem> 
-            )
-            }):
-          null
+            notes.map(note => {
+              return (
+                <StyledLink to={`/notebook/${notebook_id}/note/${note._id}`}>
+                  <ListItem>{note.name}
+                  </ListItem>
+                </StyledLink>
+              )
+            }) :
+            null
         }
       </div>
-      
+
     </div>
   )
 }

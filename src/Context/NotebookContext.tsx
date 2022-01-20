@@ -19,7 +19,7 @@ export const NotebookContext = createContext<{
   dispatch: Dispatch <any>
 }>({
   state: initState,
-  dispatch: () => undefined
+  dispatch: () => {}
 })
 
 
@@ -34,7 +34,7 @@ function notebookReducer(state: NotebookInterface[], action: UpdateNotebook | Fe
         } 
       ]
     
-    case 'FETCH': 
+    case 'FETCH':
       return [
         ...(action.payload)
       ]
@@ -45,7 +45,11 @@ function notebookReducer(state: NotebookInterface[], action: UpdateNotebook | Fe
   }
 }
 
-const NotebookContextProvider = ({children}: any) => {
+type NotebookContextProviderProps = {
+  children: React.ReactNode
+}
+
+const NotebookContextProvider = ({children}: NotebookContextProviderProps) => {
 
   const [state, dispatch] = useReducer(notebookReducer, initState)
   const value = { state, dispatch }

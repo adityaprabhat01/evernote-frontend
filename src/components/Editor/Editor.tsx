@@ -84,11 +84,11 @@ const Editor = (props: any) => {
   return (
     <div>
       <div>
-        <span>{ name }</span>
+        <span style={{ fontWeight: 800 }}>{ name }</span>
         {
           loading === true ?
-          <span>Updating....</span> :
-          <span>Updated</span>
+          <span style={{ float: "right" }}>Updating....</span> :
+          <span style={{ float: "right" }}>Updated</span>
         } 
       </div>
       
