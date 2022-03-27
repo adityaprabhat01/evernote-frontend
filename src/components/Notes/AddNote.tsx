@@ -73,7 +73,7 @@ const AddNote = () => {
       addNote({
         variables: { 
           name: noteName,
-          content: "This a sample note in html form",
+          content: "",
           notebookId: notebookId,
           _id: userId.id
         }

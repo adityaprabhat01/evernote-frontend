@@ -12,20 +12,22 @@ Font.whitelist = ['mirza', 'roboto'];
 Quill.register(Font, true);
 
 const Editor = (props: any) => {
-  let note = props.data
+  let note = props.data, timerId
   if(note === null) {
     note = ""
   }
+
   
   const { name, content, _id } = note
   const [text, setText] = useState("");
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
     setText(content)
   }, [content])
 
   
-    
+  
   const [updateNote, { loading, data }] = useMutation(ADD_NOTE_CONTENT, {
     fetchPolicy: "no-cache",
   })
@@ -41,6 +43,7 @@ const Editor = (props: any) => {
         content: text
       }
     })
+    setShowSpinner(true)
   }
 
   useEffect(() => {
@@ -82,22 +85,23 @@ const Editor = (props: any) => {
   ];
   
   return (
-    <div>
+    <div style={{ marginTop: "5px" }}>
       <div>
-        <span style={{ fontWeight: 800 }}>{ name }</span>
+        <span style={{ fontWeight: 800, fontSize: "2rem", fontFamily: "rubik" }}>{ name }</span>
         {
           loading === true ?
-          <span style={{ float: "right" }}>Updating....</span> :
-          <span style={{ float: "right" }}>Updated</span>
+          <div className="spinner-border" style={{ marginLeft: "80px" }}></div>:
+          <span style={{ marginLeft: "80px" }}>Up to date</span>
         } 
       </div>
-      
-      <ReactQuill
-        value={text || ""}
-        onChange={handleChange}
-        modules={modules}
-        formats={formats}
-      />
+      <div style={{ marginTop: "10px", marginRight: "20px" }}>
+        <ReactQuill
+          value={text || ""}
+          onChange={handleChange}
+          modules={modules}
+          formats={formats}
+        />
+      </div>
     </div>
   );
 };
