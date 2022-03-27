@@ -10,7 +10,7 @@ import NotesContextProvider from './Context/NotesContext'
 import UserContextProvider from './Context/UserContext';
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://note-app-backend-21.herokuapp.com/graphql",
   cache: new InMemoryCache(),
 });
 
